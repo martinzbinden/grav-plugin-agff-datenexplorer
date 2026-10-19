@@ -68,3 +68,14 @@ Danach ruft er `HTMLWidgets.staticRender()` auf.
 ## Lizenz
 
 MIT
+
+## Kurzlinks
+
+Für PDF-Berichte mit QR-Code (lange Links mit allen Parametern sind nur gross scanbar) bietet das Plugin
+Kurzlinks: `POST <seite>/g` mit `{"url": "<Link>"}` antwortet mit `{"kurz": "<seite>/g/<code>"}`, `GET <seite>/g/<code>`
+leitet auf den Link weiter. Der Code ergibt sich aus dem Link (derselbe Link gibt denselben Code).
+
+- Nur Ziele der eigenen Datenexplorer-Seite (`kurz_hosts`, `kurz_ziele`), keine Konten, nichts wird gelöscht.
+- Begrenzt: `kurz_max` (50000) Links, `kurz_limit` (120) neue Links je Absender und Stunde.
+- `kurz_origins`: Seiten, die aus dem Browser anlegen dürfen (CORS), Standard `https://apps.graswachstum.ch`.
+- Ablage: `kurz_daten_dir` (Standard `../datenexplorer-daten`, ausserhalb des Webverzeichnisses), Datei `kurzlinks.json`.

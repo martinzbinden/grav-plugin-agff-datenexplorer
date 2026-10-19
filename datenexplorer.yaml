@@ -11,3 +11,10 @@ abstand_oben: ''
 text_laden: ''
 text_fenster: ''
 text_fehler: ''
+# Kurzlinks (siehe README): Pfad, Datenordner, erlaubte Ziele und Absender
+kurz_pfad: '/g'
+kurz_daten_dir: '../datenexplorer-daten'
+kurz_hosts: ['graswachstum.ch']
+kurz_origins: ['https://apps.graswachstum.ch']
+kurz_max: 50000
+kurz_limit: 120
