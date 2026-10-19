@@ -7,6 +7,26 @@
 (function () {
   'use strict';
 
+  // Geteilter Bericht (#…ber=1…): sofort eine Ladeanzeige ueber die Seite; die App uebernimmt sie
+  // (gleiche Klassen wie GWDatenexplorer.berichtLaden in der App)
+  function berichtLaden() {
+    if (!/[#&]ber=1(&|$)/.test(window.location.hash) || document.querySelector('.gw-bericht')) return;
+    var st = document.createElement('style');
+    st.id = 'gw-bericht-stil';
+    st.textContent = '.gw-bericht{position:fixed;inset:0;z-index:2147483000;background:#eef1ee;display:flex;flex-direction:column;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}' +
+      '.gw-bericht-laden{margin:auto;display:flex;flex-direction:column;align-items:center;gap:18px;color:#2f4f47;font-size:16px}' +
+      '.gw-bericht-rad{position:relative;width:56px;height:56px;animation:gw-drehen 1.1s steps(8) infinite}' +
+      '.gw-bericht-rad i{position:absolute;left:24px;top:0;width:8px;height:8px;border-radius:50%;background:#2f6f5e;transform-origin:4px 28px}' +
+      '@keyframes gw-drehen{to{transform:rotate(360deg)}}@media (prefers-reduced-motion:reduce){.gw-bericht-rad{animation-duration:4s}}';
+    document.head.appendChild(st);
+    var d = document.createElement('div'), rad = '';
+    d.className = 'gw-bericht';
+    for (var i = 0; i < 8; i++) rad += '<i style="transform:rotate(' + (i * 45) + 'deg);opacity:' + (0.2 + i * 0.1).toFixed(1) + '"></i>';
+    d.innerHTML = '<div class="gw-bericht-laden" role="status"><div class="gw-bericht-rad" aria-hidden="true">' + rad + '</div><span>Bericht wird aufgebaut …</span></div>';
+    document.body.appendChild(d);
+  }
+  if (document.body) berichtLaden(); else document.addEventListener('DOMContentLoaded', berichtLaden);
+
   function ladeSkript(src) {
     return new Promise(function (ok, fehler) {
       var s = document.createElement('script');
