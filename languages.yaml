@@ -3,18 +3,26 @@ de:
     LADEN: 'Interaktive Ansicht wird geladen …'
     FENSTER: 'In eigenem Fenster öffnen'
     FEHLER: 'Die interaktive Ansicht konnte nicht geladen werden.'
+    OFFLINE: 'Der Datenexplorer ist zurzeit nicht erreichbar. Die Karte zeigt den letzten Stand.'
+    STATUS: 'Status der Apps'
 fr:
   PLUGIN_DATENEXPLORER:
     LADEN: 'Chargement de la vue interactive …'
     FENSTER: 'Ouvrir dans une nouvelle fenêtre'
     FEHLER: 'La vue interactive n''a pas pu être chargée.'
+    OFFLINE: 'L''explorateur de données est actuellement indisponible. La carte montre le dernier état.'
+    STATUS: 'État des applications'
 it:
   PLUGIN_DATENEXPLORER:
     LADEN: 'Caricamento della vista interattiva …'
     FENSTER: 'Apri in una nuova finestra'
     FEHLER: 'Non è stato possibile caricare la vista interattiva.'
+    OFFLINE: 'L''esploratore dei dati non è al momento raggiungibile. La carta mostra l''ultimo stato.'
+    STATUS: 'Stato delle applicazioni'
 en:
   PLUGIN_DATENEXPLORER:
     LADEN: 'Loading interactive view …'
     FENSTER: 'Open in a new window'
     FEHLER: 'The interactive view could not be loaded.'
+    OFFLINE: 'The data explorer is currently unavailable. The map shows the latest state.'
+    STATUS: 'App status'

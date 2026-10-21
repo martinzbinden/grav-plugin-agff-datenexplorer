@@ -111,8 +111,10 @@ class DatenexplorerPlugin extends Plugin
         $quelle = rtrim((string) $this->cfg('quelle', ''), '/') . '/';
         $e = static fn($s) => htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8');
         $bild = (string) $this->cfg('vorschaubild', '');
+        // Vorschaubild: absolut oder ab Website-Wurzel (/uploads/…, bleibt bei einem Ausfall der App sichtbar), sonst bei der App
+        $bildUrl = preg_match('#^(https?:)?//#', $bild) ? $bild : (str_starts_with($bild, '/') ? (string) $this->grav['base_url'] . $bild : $quelle . $bild);
         $bildHtml = $bild !== ''
-            ? '<img class="datenexplorer-vorschau" src="' . $e($quelle . $bild) . '" alt="' . $e($this->cfg('vorschaubild_alt', '')) . '">'
+            ? '<img class="datenexplorer-vorschau" src="' . $e($bildUrl) . '" alt="' . $e($this->cfg('vorschaubild_alt', '')) . '">'
             : '';
         $abstand = trim((string) $this->cfg('abstand_oben', ''));
         $stil = preg_match('/^-?[0-9.]+(px|rem|em)$/', $abstand) ? ' style="--datenexplorer-abstand-oben: ' . $abstand . '"' : '';
@@ -120,7 +122,9 @@ class DatenexplorerPlugin extends Plugin
             . ' data-quelle="' . $e($quelle) . '"'
             . ' data-einbettung="' . $e($this->cfg('einbettung', 'Datenexplorer_einbettung.json')) . '"'
             . ' data-text-fehler="' . $e($this->text('text_fehler', 'FEHLER')) . '"'
-            . ' data-text-fenster="' . $e($this->text('text_fenster', 'FENSTER')) . '">'
+            . ' data-text-fenster="' . $e($this->text('text_fenster', 'FENSTER')) . '"'
+            . ' data-text-offline="' . $e($this->text('text_offline', 'OFFLINE')) . '"'
+            . ' data-text-status="' . $e($this->text('text_status', 'STATUS')) . '">'
             . $bildHtml
             . '<p class="datenexplorer-status" role="status"><span class="datenexplorer-lader" aria-hidden="true"></span>'
             . $e($this->text('text_laden', 'LADEN')) . '</p>'

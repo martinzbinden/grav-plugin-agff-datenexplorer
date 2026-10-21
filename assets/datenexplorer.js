@@ -59,6 +59,23 @@
     status.appendChild(a);
   }
 
+  // Zurzeit nicht erreichbar (laut Status-Seite des Plugins agff-status oder nach Zeitlimit):
+  // freundlicher Hinweis, die lokale Karte bleibt sichtbar, Link zum Status der Apps
+  function offlineAnzeigen(el) {
+    if (el.classList.contains('datenexplorer--bereit')) return;
+    el.classList.add('datenexplorer--offline');
+    var status = el.querySelector('.datenexplorer-status') || document.createElement('p');
+    status.className = 'datenexplorer-status';
+    el.insertBefore(status, el.firstChild);   // Hinweis ueber der Karte
+    status.textContent = (el.getAttribute('data-text-offline') || 'Der Datenexplorer ist zurzeit nicht erreichbar.') + ' ';
+    if (window.AGFF_STATUS && window.AGFF_STATUS.seite) {
+      var a = document.createElement('a');
+      a.href = window.AGFF_STATUS.seite;
+      a.textContent = el.getAttribute('data-text-status') || 'Status der Apps';
+      status.appendChild(a);
+    }
+  }
+
   function starte(el) {
     var basis = el.getAttribute('data-quelle') || '';
     if (basis && !/\/$/.test(basis)) basis += '/';
@@ -69,9 +86,21 @@
 
     // Einmal wiederholen: ein abgebrochener erster Verbindungsaufbau soll
     // nicht gleich die Fehlermeldung zeigen.
+    // Parallel den Status pruefen (graswachstum.ch, schnell): meldet er die App als gestoert, sofort Hinweis
+    if (window.AGFF_STATUS && window.AGFF_STATUS.json && window.fetch) {
+      fetch(window.AGFF_STATUS.json, { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+        var x = (d.dienste || []).filter(function (s) { return s.id === 'datenexplorer'; })[0];
+        if (x && x.ok === false) offlineAnzeigen(el);
+      }).catch(function () {});
+    }
+    // Nur solange die App gar nicht antwortet (langsame Verbindungen laden danach noch Skripte)
+    var geantwortet = false;
+    var zeitlimit = setTimeout(function () { if (!geantwortet) offlineAnzeigen(el); }, 15000);
+
     function holeEinbettung(versuch) {
       return fetch(new URL(datei, basis).href, { cache: 'no-cache' })
         .then(function (r) {
+          geantwortet = true;
           if (!r.ok) throw new Error('Einbettung nicht gefunden (' + r.status + ')');
           return r.json();
         })
@@ -94,6 +123,8 @@
         }, Promise.resolve()).then(function () { return huelle; });
       })
       .then(function (huelle) {
+        clearTimeout(zeitlimit);
+        el.classList.remove('datenexplorer--offline');
         Array.prototype.slice.call(el.children).forEach(function (k) { if (k !== huelle) k.remove(); });
         huelle.hidden = false;
         el.classList.add('datenexplorer--bereit');
@@ -101,7 +132,8 @@
       })
       .catch(function (err) {
         console.error('Datenexplorer:', err);
-        fehlerAnzeigen(el, basis);
+        clearTimeout(zeitlimit);
+        if (window.AGFF_STATUS) offlineAnzeigen(el); else fehlerAnzeigen(el, basis);
       });
   }
 

@@ -12,6 +12,9 @@
    scrollt, und sticky greift nicht. clip schneidet gleich ab, ohne das. */
 body { overflow-x: clip !important; }
 .datenexplorer-vorschau { display: block; width: 100%; height: auto; border-radius: 8px; opacity: 0.55; }
+.datenexplorer--offline .datenexplorer-vorschau { opacity: 1; max-height: 75vh; object-fit: contain; }
+.datenexplorer--offline .datenexplorer-status { display: block; margin: 0 0 10px; padding: 10px 14px; border-radius: 10px; background: #fde8ef; color: #8a1240; font-weight: 600; }
+.datenexplorer--offline .datenexplorer-status a { color: inherit; text-decoration: underline; }
 .datenexplorer-status { display: flex; align-items: center; gap: 0.6rem; margin: 0.75rem 0 0; font-size: 0.9rem; color: #555; }
 .datenexplorer-lader { width: 1rem; height: 1rem; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: datenexplorer-dreh 0.8s linear infinite; }
 @keyframes datenexplorer-dreh { to { transform: rotate(360deg); } }
