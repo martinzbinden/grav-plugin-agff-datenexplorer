@@ -27,6 +27,11 @@ form:
       type: text
       label: Einbettungsdatei
       default: Datenexplorer_einbettung.json
+    kurzansicht:
+      type: text
+      label: Startansicht (schlicht)
+      placeholder: Datenexplorer_kurz.json
+      help: 'JSON bei der App mit einer schlichten Karte und Kurve. Der volle Datenexplorer lädt dann erst auf Klick (oder sofort bei einem Link mit Ansicht, #…). Leer: gleich der volle Datenexplorer.'
     vorschaubild:
       type: text
       label: Vorschaubild (relativ zur Adresse)

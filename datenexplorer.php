@@ -113,14 +113,20 @@ class DatenexplorerPlugin extends Plugin
         $bild = (string) $this->cfg('vorschaubild', '');
         // Vorschaubild: absolut oder ab Website-Wurzel (/uploads/…, bleibt bei einem Ausfall der App sichtbar), sonst bei der App
         $bildUrl = preg_match('#^(https?:)?//#', $bild) ? $bild : (str_starts_with($bild, '/') ? (string) $this->grav['base_url'] . $bild : $quelle . $bild);
+        // Mit Startansicht laedt das Vorschaubild erst, wenn es gebraucht wird (Stoerung,
+        // Link direkt in den vollen Datenexplorer) - sonst waeren es unnoetige KB
+        $kurz = (string) $this->cfg('kurzansicht', '') !== '';
         $bildHtml = $bild !== ''
-            ? '<img class="datenexplorer-vorschau" src="' . $e($bildUrl) . '" alt="' . $e($this->cfg('vorschaubild_alt', '')) . '">'
+            ? '<img class="datenexplorer-vorschau" ' . ($kurz ? 'data-src' : 'src') . '="' . $e($bildUrl) . '" alt="' . $e($this->cfg('vorschaubild_alt', '')) . '"' . ($kurz ? ' hidden' : '') . '>'
             : '';
         $abstand = trim((string) $this->cfg('abstand_oben', ''));
         $stil = preg_match('/^-?[0-9.]+(px|rem|em)$/', $abstand) ? ' style="--datenexplorer-abstand-oben: ' . $abstand . '"' : '';
         return '<div class="datenexplorer not-prose" data-datenexplorer' . $stil
             . ' data-quelle="' . $e($quelle) . '"'
             . ' data-einbettung="' . $e($this->cfg('einbettung', 'Datenexplorer_einbettung.json')) . '"'
+            . ($this->cfg('kurzansicht', '') !== '' ? ' data-kurz="' . $e($this->cfg('kurzansicht')) . '"' : '')
+            . ' data-sprache="' . $e($this->grav['language']->getActive() ?: 'de') . '"'
+            . ' data-text-schlicht="' . $e($this->text('text_schlicht', 'SCHLICHT')) . '"'
             . ' data-text-fehler="' . $e($this->text('text_fehler', 'FEHLER')) . '"'
             . ' data-text-fenster="' . $e($this->text('text_fenster', 'FENSTER')) . '"'
             . ' data-text-offline="' . $e($this->text('text_offline', 'OFFLINE')) . '"'

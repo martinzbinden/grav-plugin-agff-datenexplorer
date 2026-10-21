@@ -2,6 +2,8 @@ enabled: true
 # Adresse der App (Ordner mit Einbettungsdatei, lib/ und nachgeladenen Dateien)
 quelle: ''
 einbettung: Datenexplorer_einbettung.json
+# Schlichte Startansicht (JSON bei der App, leer = gleich der volle Datenexplorer)
+kurzansicht: ''
 # Optionales Vorschaubild (relativ zur Quelle), solange die App laedt
 vorschaubild: ''
 vorschaubild_alt: ''

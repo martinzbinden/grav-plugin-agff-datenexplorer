@@ -5,6 +5,7 @@ de:
     FEHLER: 'Die interaktive Ansicht konnte nicht geladen werden.'
     OFFLINE: 'Der Datenexplorer ist zurzeit nicht erreichbar. Die Karte zeigt den letzten Stand.'
     STATUS: 'Status der Apps'
+    SCHLICHT: 'Schlichte Ansicht'
 fr:
   PLUGIN_DATENEXPLORER:
     LADEN: 'Chargement de la vue interactive …'
@@ -12,6 +13,7 @@ fr:
     FEHLER: 'La vue interactive n''a pas pu être chargée.'
     OFFLINE: 'L''explorateur de données est actuellement indisponible. La carte montre le dernier état.'
     STATUS: 'État des applications'
+    SCHLICHT: 'Vue simple'
 it:
   PLUGIN_DATENEXPLORER:
     LADEN: 'Caricamento della vista interattiva …'
@@ -19,6 +21,7 @@ it:
     FEHLER: 'Non è stato possibile caricare la vista interattiva.'
     OFFLINE: 'L''esploratore dei dati non è al momento raggiungibile. La carta mostra l''ultimo stato.'
     STATUS: 'Stato delle applicazioni'
+    SCHLICHT: 'Vista semplice'
 en:
   PLUGIN_DATENEXPLORER:
     LADEN: 'Loading interactive view …'
@@ -26,3 +29,4 @@ en:
     FEHLER: 'The interactive view could not be loaded.'
     OFFLINE: 'The data explorer is currently unavailable. The map shows the latest state.'
     STATUS: 'App status'
+    SCHLICHT: 'Simple view'

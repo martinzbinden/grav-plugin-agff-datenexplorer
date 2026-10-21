@@ -30,7 +30,13 @@ body { overflow-x: clip !important; }
 .datenexplorer-app input[type="text"], .datenexplorer-app input[type="search"] { border: 1px solid #bbb; border-radius: 6px; padding: 6px 8px; background: white; }
 .datenexplorer-app button { line-height: 1.2; }
 
+/* Zurueck vom vollen Datenexplorer zur Startansicht */
+.datenexplorer-zurueck { margin: 0 0 6px; font-size: 0.875rem; text-align: right; }
+.datenexplorer-zurueck a { color: #2f6b62; }
+.datenexplorer-zurueck a::before { content: "← "; }
+
 @media (max-width: 700px) {
-  /* Auf dem Handy randlos bis an den Bildschirmrand */
+  /* Auf dem Handy randlos bis an den Bildschirmrand (die Startansicht behaelt den Rand) */
   .datenexplorer { margin-left: -1rem; margin-right: -1rem; }
+  .datenexplorer-kurz, .datenexplorer-zurueck { padding-left: 1rem; padding-right: 1rem; }
 }
