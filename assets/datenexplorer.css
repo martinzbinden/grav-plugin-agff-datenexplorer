@@ -1,10 +1,11 @@
 /* Platzhalter, bis die App geladen ist */
 .datenexplorer { position: relative; margin: 1.5rem 0; }
-.datenexplorer:first-child { margin-top: 0; }
+/* Erstes sichtbares Element: auch nach einer nur fuer Screenreader gedachten Ueberschrift */
+.datenexplorer:first-child, .sr-nur:first-child + .datenexplorer, .sr-only:first-child + .datenexplorer { margin-top: 0; }
 /* Abstand nach oben (Konfiguration abstand_oben), z.B. negativ, um ein grosses
    Innenpolster des Themes auszugleichen - erst ab Tabletbreite */
 @media (min-width: 768px) {
-  .datenexplorer:first-child { margin-top: var(--datenexplorer-abstand-oben, 0); }
+  .datenexplorer:first-child, .sr-nur:first-child + .datenexplorer, .sr-only:first-child + .datenexplorer { margin-top: var(--datenexplorer-abstand-oben, 0); }
 }
 /* Die App hat Elemente mit position: sticky (Zeitleiste). Themes setzen oft
    overflow-x: hidden auf body - das macht body zum Scroll-Container, der nie
