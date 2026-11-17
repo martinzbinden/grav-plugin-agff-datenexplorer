@@ -91,6 +91,18 @@
     }
   }
 
+  // Voller Datenexplorer: volle Breite (Klasse am Element) und kompakter Kopf (Klassen an <html>; auf dem Handy immer kompakt)
+  function kompaktPruefen() {
+    var r = document.documentElement;
+    r.classList.toggle('datenexplorer-kompakt', r.classList.contains('datenexplorer-voll') || window.innerWidth <= 900);
+  }
+  function alsVoll(el) {
+    el.classList.add('datenexplorer--voll');
+    document.documentElement.classList.add('datenexplorer-voll');
+    kompaktPruefen();
+  }
+  window.addEventListener('resize', kompaktPruefen);
+
   function starte(el) {
     var basis = el.getAttribute('data-quelle') || '';
     if (basis && !/\/$/.test(basis)) basis += '/';
@@ -161,7 +173,7 @@
         huelle.hidden = true;
         huelle.innerHTML = b.html || '';
         el.appendChild(huelle);
-        el.classList.add('datenexplorer--voll');
+        alsVoll(el);
         nurNoch(huelle);
         if (kurz) {
           // Zurueck zur schlichten Ansicht: Seite ohne Ansicht im Link neu laden
@@ -190,7 +202,7 @@
     // Startansicht (schlicht, wenige KB), solange der Link keine Ansicht nennt (#ebene=…, #ber=1 …)
     var mitAnsicht = /^#./.test(window.location.hash || '');
     // Ohne Startansicht (oder Link mit Ansicht) ist es gleich der volle Datenexplorer: schon beim Laden in voller Breite
-    if (!(kurz && !mitAnsicht)) el.classList.add('datenexplorer--voll');
+    if (!(kurz && !mitAnsicht)) alsVoll(el);
     if (kurz && !mitAnsicht) {
       holeJson(kurz, 0)
         .then(function (b) {
@@ -360,6 +372,7 @@
     var el = document.querySelector('[data-datenexplorer]');
     if (el) {
       document.documentElement.classList.add('datenexplorer-seite');
+      kompaktPruefen();
       drehenEinrichten(el);
       starte(el);
       alterNeuladen();

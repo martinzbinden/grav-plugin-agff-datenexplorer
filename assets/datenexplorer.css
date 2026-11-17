@@ -37,7 +37,7 @@ body { overflow-x: clip !important; }
 
 /* Voller Datenexplorer: volle Bildschirmbreite, aus dem Seitenrahmen des Themes ausbrechen (body schneidet den Rest ab, siehe oben).
    Die schlichte Startansicht bleibt in der Breite des übrigen Inhalts (Klasse datenexplorer--voll setzt der Lader). */
-.datenexplorer-seite .datenexplorer--voll { width: 100vw; margin-left: calc(50% - 50vw); margin-right: 0; }
+.datenexplorer-seite .datenexplorer--voll { width: 100vw; margin: 0 0 0 calc(50% - 50vw); }
 .datenexplorer-seite .datenexplorer--voll #gw-seite { max-width: none !important; }
 .datenexplorer-seite .datenexplorer--voll .datenexplorer-zurueck { padding-left: 1rem; padding-right: 1rem; }
 
@@ -45,13 +45,19 @@ body { overflow-x: clip !important; }
 .datenexplorer-kopf, .datenexplorer-kopf-text { display: contents; }
 .datenexplorer-drehen, .datenexplorer-schliessen { display: none; }
 
+/* Schmale Leiste «Werkzeuge › Titel» (html.datenexplorer-kompakt: Handy, und der volle Datenexplorer auch am Desktop) */
+.datenexplorer-kompakt .datenexplorer-kopf { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; padding: 0; min-height: 28px; }
+.datenexplorer-kompakt .datenexplorer-kopf-text { display: block; flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; line-height: 28px; }
+.datenexplorer-kompakt .datenexplorer-kopf-text > * { display: inline !important; margin: 0 !important; padding: 0 !important; font-size: 13px !important; line-height: 28px !important; font-weight: 400; letter-spacing: 0; color: inherit; }
+.datenexplorer-kompakt .datenexplorer-kopf-text > h1 { font-weight: 600; }
+.datenexplorer-kompakt .datenexplorer-kopf-text > h1::before { content: " › "; font-weight: 400; opacity: .6; }
+/* Voller Datenexplorer: Leiste in voller Breite wie die App, «Schlichte Ansicht» rechts in derselben Zeile (am Desktop) */
+.datenexplorer-voll .datenexplorer-kopf { width: 100vw; margin-left: calc(50% - 50vw); padding: 0 16px; box-sizing: border-box; }
+@media (min-width: 901px) {
+  .datenexplorer-voll .datenexplorer--voll .datenexplorer-zurueck { position: absolute; top: -32px; right: 16px; margin: 0; line-height: 28px; z-index: 2; }
+}
 @media (max-width: 900px) {
-  /* Schmale Leiste: «Werkzeuge › Titel» klein, rechts «Drehen» */
-  .datenexplorer-kopf { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; padding: 0; min-height: 28px; }
-  .datenexplorer-kopf-text { display: block; flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; line-height: 28px; }
-  .datenexplorer-kopf-text > * { display: inline !important; margin: 0 !important; padding: 0 !important; font-size: 13px !important; line-height: 28px !important; font-weight: 400; letter-spacing: 0; color: inherit; }
-  .datenexplorer-kopf-text > h1 { font-weight: 600; }
-  .datenexplorer-kopf-text > h1::before { content: " › "; font-weight: 400; opacity: .6; }
+  .datenexplorer-voll .datenexplorer-kopf { padding: 0 12px; }
   .datenexplorer-drehen { display: inline-flex; align-items: center; gap: 6px; flex: 0 0 auto; min-height: 28px; padding: 0 12px; border: 1px solid #2f6b62; border-radius: 14px; background: #fff; color: #2f6b62; font: inherit; font-size: 13px; line-height: 1; cursor: pointer; }
   .datenexplorer-drehen::before { content: "\21BB"; font-size: 15px; }
 }
