@@ -246,9 +246,121 @@
     window.addEventListener('online', pruefen);
   }
 
+  // Kopfzeile und «Drehen» (Handy): Brotkrumen und Ueberschrift vor der App wandern in eine schmale Leiste, rechts der
+  // Knopf «Drehen». Er zeigt die App im Querformat ueber den ganzen Schirm: wo der Browser es erlaubt (Android, iPad)
+  // als echtes Vollbild mit Querformat-Sperre, sonst (iPhone) als Ersatz - die Ansicht wird per CSS um 90 Grad gedreht,
+  // solange das Geraet im Hochformat steht. Auf dem Desktop bleibt alles beim Alten (Leiste: display: contents).
+  function drehenEinrichten(el) {
+    var eltern = el.parentNode;
+    if (!eltern) return;
+    var krume = function (k) { return /krume|breadcrumb/i.test(k.className || ''); };
+    var vorn = [];
+    for (var k = el.previousElementSibling; k; k = k.previousElementSibling) {
+      if (k.tagName === 'H1' || ((k.tagName === 'P' || k.tagName === 'NAV' || k.tagName === 'OL') && krume(k))) vorn.unshift(k);
+      else break;
+    }
+    var leiste = document.createElement('div');
+    leiste.className = 'datenexplorer-kopf';
+    var text = document.createElement('div');
+    text.className = 'datenexplorer-kopf-text';
+    leiste.appendChild(text);
+    eltern.insertBefore(leiste, vorn.length ? vorn[0] : el);
+    vorn.forEach(function (n) { text.appendChild(n); });
+
+    var knopf = document.createElement('button');
+    knopf.type = 'button';
+    knopf.className = 'datenexplorer-drehen';
+    knopf.textContent = el.getAttribute('data-text-drehen') || 'Drehen';
+    leiste.appendChild(knopf);
+
+    var wurzel = document.documentElement;
+    var aktiv = false, imVollbild = false;
+    var schliessen = document.createElement('button');
+    schliessen.type = 'button';
+    schliessen.className = 'datenexplorer-schliessen';
+    schliessen.textContent = el.getAttribute('data-text-schliessen') || 'Zurück';
+    var beobachter = window.MutationObserver ? new MutationObserver(function () {
+      // Wechselt die App ihre Ansicht, raeumt sie el auf: den Knopf wieder einsetzen
+      if (aktiv && schliessen.parentNode !== el) el.insertBefore(schliessen, el.firstChild);
+    }) : null;
+
+    function groesseMelden() {
+      // Plotly & Co. messen ihren Behaelter neu
+      [60, 350].forEach(function (ms) { setTimeout(function () { window.dispatchEvent(new Event('resize')); }, ms); });
+    }
+    function hochkant() {
+      el.classList.toggle('datenexplorer--hochkant', aktiv && !imVollbild && window.innerHeight > window.innerWidth);
+    }
+    function echtesVollbild() {
+      return !!((document.fullscreenElement || document.webkitFullscreenElement) === el);
+    }
+    function an() {
+      if (aktiv) return;
+      aktiv = true;
+      el.classList.add('datenexplorer--quer');
+      wurzel.classList.add('datenexplorer-fixiert');
+      el.insertBefore(schliessen, el.firstChild);
+      if (beobachter) beobachter.observe(el, { childList: true });
+      hochkant();
+      var rf = el.requestFullscreen || el.webkitRequestFullscreen;
+      var kann = rf && (document.fullscreenEnabled || document.webkitFullscreenEnabled);
+      if (kann) {
+        try {
+          Promise.resolve(rf.call(el)).then(function () {
+            imVollbild = echtesVollbild();
+            hochkant();
+            var o = window.screen && window.screen.orientation;
+            if (o && o.lock) return o.lock('landscape');
+          }).catch(function () {}).then(function () {
+            setTimeout(function () {
+              if (!aktiv) return;
+              if (imVollbild && window.innerHeight > window.innerWidth) {
+                // Querformat nicht erzwingbar: das echte Vollbild erlaubt keine Drehung per CSS, also verlassen;
+                // die gedrehte Ansicht bleibt als Ersatz
+                imVollbild = false;
+                try { (document.exitFullscreen || document.webkitExitFullscreen).call(document); } catch (e) { /* schon draussen */ }
+              }
+              hochkant(); groesseMelden();
+            }, 400);
+          });
+        } catch (e) { /* Ersatz bleibt */ }
+      }
+      groesseMelden();
+    }
+    function aus() {
+      if (!aktiv) return;
+      aktiv = false;
+      var warVoll = imVollbild; imVollbild = false;
+      if (beobachter) beobachter.disconnect();
+      if (schliessen.parentNode) schliessen.parentNode.removeChild(schliessen);
+      el.classList.remove('datenexplorer--quer', 'datenexplorer--hochkant');
+      wurzel.classList.remove('datenexplorer-fixiert');
+      try {
+        var o = window.screen && window.screen.orientation;
+        if (o && o.unlock) o.unlock();
+        if (warVoll && echtesVollbild()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      } catch (e) { /* schon draussen */ }
+      groesseMelden();
+    }
+    knopf.addEventListener('click', an);
+    schliessen.addEventListener('click', aus);
+    document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') aus(); });
+    ['fullscreenchange', 'webkitfullscreenchange'].forEach(function (n) {
+      // Wer das echte Vollbild per Geste verlaesst, verlaesst auch den Ersatz
+      document.addEventListener(n, function () { if (aktiv && imVollbild && !echtesVollbild()) { imVollbild = false; aus(); } });
+    });
+    window.addEventListener('resize', hochkant);
+    window.addEventListener('orientationchange', function () { setTimeout(hochkant, 100); });
+  }
+
   function init() {
     var el = document.querySelector('[data-datenexplorer]');
-    if (el) { starte(el); alterNeuladen(); }
+    if (el) {
+      document.documentElement.classList.add('datenexplorer-seite');
+      drehenEinrichten(el);
+      starte(el);
+      alterNeuladen();
+    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

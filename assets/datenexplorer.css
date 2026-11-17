@@ -35,8 +35,35 @@ body { overflow-x: clip !important; }
 .datenexplorer-zurueck a { color: #2f6b62; }
 .datenexplorer-zurueck a::before { content: "← "; }
 
+/* Volle Bildschirmbreite: aus dem Seitenrahmen des Themes ausbrechen (body schneidet den Rest ab, siehe oben) */
+.datenexplorer-seite .datenexplorer { width: 100vw; margin-left: calc(50% - 50vw); margin-right: 0; }
+.datenexplorer-seite #gw-seite { max-width: none !important; }
+.datenexplorer-seite .datenexplorer-kurz, .datenexplorer-seite .datenexplorer-zurueck { padding-left: 1rem; padding-right: 1rem; }
+
+/* Kopf (Brotkrumen, Ueberschrift) und «Drehen»: auf dem Desktop unsichtbar eingepackt, alles wie ohne Leiste */
+.datenexplorer-kopf, .datenexplorer-kopf-text { display: contents; }
+.datenexplorer-drehen, .datenexplorer-schliessen { display: none; }
+
+@media (max-width: 900px) {
+  /* Schmale Leiste: «Werkzeuge › Titel» klein, rechts «Drehen» */
+  .datenexplorer-kopf { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; padding: 0; min-height: 28px; }
+  .datenexplorer-kopf-text { display: block; flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; line-height: 28px; }
+  .datenexplorer-kopf-text > * { display: inline !important; margin: 0 !important; padding: 0 !important; font-size: 13px !important; line-height: 28px !important; font-weight: 400; letter-spacing: 0; color: inherit; }
+  .datenexplorer-kopf-text > h1 { font-weight: 600; }
+  .datenexplorer-kopf-text > h1::before { content: " › "; font-weight: 400; opacity: .6; }
+  .datenexplorer-drehen { display: inline-flex; align-items: center; gap: 6px; flex: 0 0 auto; min-height: 28px; padding: 0 12px; border: 1px solid #2f6b62; border-radius: 14px; background: #fff; color: #2f6b62; font: inherit; font-size: 13px; line-height: 1; cursor: pointer; }
+  .datenexplorer-drehen::before { content: "\21BB"; font-size: 15px; }
+}
+
+/* Ansicht quer ueber den ganzen Schirm (echtes Vollbild, wo erlaubt; sonst nur dieser Ersatz) */
+.datenexplorer-fixiert, .datenexplorer-fixiert body { overflow: hidden !important; }
+.datenexplorer.datenexplorer--quer { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; height: 100dvh; margin: 0 !important; z-index: 2147483000; background: #fff; overflow: auto; -webkit-overflow-scrolling: touch; }
+/* Gerät steht noch hoch: Ansicht um 90 Grad im Uhrzeigersinn gedreht (Oberkante rechts) */
+.datenexplorer.datenexplorer--quer.datenexplorer--hochkant { right: auto; bottom: auto; width: 100vh; width: 100dvh; height: 100vw; height: 100dvw; transform-origin: 0 0; transform: translateX(100vw) rotate(90deg); transform: translateX(100dvw) rotate(90deg); }
+.datenexplorer--quer .datenexplorer-schliessen { display: block; position: sticky; top: 8px; float: right; margin: 8px 8px 0 0; z-index: 10; min-height: 32px; padding: 0 14px; border: 1px solid #2f6b62; border-radius: 16px; background: #fff; color: #2f6b62; font: inherit; font-size: 14px; cursor: pointer; }
+.datenexplorer--quer #gw-seite { padding: 6px !important; }
+
 @media (max-width: 700px) {
   /* Auf dem Handy randlos bis an den Bildschirmrand (die Startansicht behaelt den Rand) */
-  .datenexplorer { margin-left: -1rem; margin-right: -1rem; }
-  .datenexplorer-kurz, .datenexplorer-zurueck { padding-left: 1rem; padding-right: 1rem; }
+  .datenexplorer-seite #gw-seite { padding: 6px !important; }
 }

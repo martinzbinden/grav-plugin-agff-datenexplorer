@@ -1,7 +1,7 @@
 name: Datenexplorer
 slug: datenexplorer
 type: plugin
-version: 1.0.0
+version: 1.1.0
 description: 'Bettet eine mit R/htmlwidgets erzeugte Web-App (z.B. Plotly-Datenexplorer) ohne iframe in eine Seite ein – im Seitenrahmen und Stil der Website. Im Inhalt genügt [datenexplorer].'
 icon: line-chart
 author:

@@ -6,6 +6,8 @@ de:
     OFFLINE: 'Der Datenexplorer ist zurzeit nicht erreichbar. Die Karte zeigt den letzten Stand.'
     STATUS: 'Status der Apps'
     SCHLICHT: 'Schlichte Ansicht'
+    DREHEN: 'Drehen'
+    SCHLIESSEN: 'Zurück'
 fr:
   PLUGIN_DATENEXPLORER:
     LADEN: 'Chargement de la vue interactive …'
@@ -14,6 +16,8 @@ fr:
     OFFLINE: 'L''explorateur de données est actuellement indisponible. La carte montre le dernier état.'
     STATUS: 'État des applications'
     SCHLICHT: 'Vue simple'
+    DREHEN: 'Pivoter'
+    SCHLIESSEN: 'Retour'
 it:
   PLUGIN_DATENEXPLORER:
     LADEN: 'Caricamento della vista interattiva …'
@@ -22,6 +26,8 @@ it:
     OFFLINE: 'L''esploratore dei dati non è al momento raggiungibile. La carta mostra l''ultimo stato.'
     STATUS: 'Stato delle applicazioni'
     SCHLICHT: 'Vista semplice'
+    DREHEN: 'Ruota'
+    SCHLIESSEN: 'Indietro'
 en:
   PLUGIN_DATENEXPLORER:
     LADEN: 'Loading interactive view …'
@@ -30,3 +36,5 @@ en:
     OFFLINE: 'The data explorer is currently unavailable. The map shows the latest state.'
     STATUS: 'App status'
     SCHLICHT: 'Simple view'
+    DREHEN: 'Rotate'
+    SCHLIESSEN: 'Back'

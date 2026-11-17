@@ -65,6 +65,20 @@ Vor dem Start setzt der Lader:
 
 Danach ruft er `HTMLWidgets.staticRender()` auf.
 
+## Volle Breite, schmaler Kopf, «Drehen»
+
+- **Volle Bildschirmbreite:** Auf Seiten mit Datenexplorer bricht die App aus dem Seitenrahmen des Themes aus (`html.datenexplorer-seite`);
+  der Lader setzt die Klasse. Die feste Maximalbreite der App (`#gw-seite`) wird aufgehoben.
+- **Handy (bis 900 px):** Brotkrumen und Überschrift vor der App (Elemente mit «krumen»/«breadcrumb» im Klassennamen und `h1`)
+  wandern in eine schmale Leiste «Werkzeuge › Titel» (13 px), rechts der Knopf «Drehen». Das Theme macht Kopf und Seitenrand
+  auf dieser Seite klein (graswachstum: `website.css`, Block «Datenexplorer»); zusammen bleibt etwa ein Zehntel der Bildschirmhöhe.
+  Auf dem Desktop ist die Leiste unsichtbar eingepackt (`display: contents`), die Seite sieht aus wie zuvor.
+- **«Drehen»:** zeigt die App im Querformat über den ganzen Schirm. Wo der Browser es erlaubt (Android, iPad), als echtes Vollbild
+  mit Querformat-Sperre; gelingt die Sperre nicht (oder gibt es kein Vollbild, iPhone), wird die Ansicht per CSS um 90° gedreht,
+  solange das Gerät im Hochformat steht (Oberkante rechts, bei Querformat keine Drehung). «Zurück» oder Esc beendet die Ansicht.
+  Texte: `DREHEN`, `SCHLIESSEN` in `languages.yaml` (oder `text_drehen`, `text_schliessen`).
+  Bekannte Grenze: In der gedrehten Ersatzansicht stimmen Zeigerkoordinaten in Plotly-Diagrammen (Hover, Ziehen) je nach Browser nicht ganz.
+
 ## Lange offene Seite
 
 Die App rechnet ihre Daten jede Nacht neu. Damit ein tagelang offener Tab nicht den alten Stand zeigt, lädt der

@@ -130,7 +130,9 @@ class DatenexplorerPlugin extends Plugin
             . ' data-text-fehler="' . $e($this->text('text_fehler', 'FEHLER')) . '"'
             . ' data-text-fenster="' . $e($this->text('text_fenster', 'FENSTER')) . '"'
             . ' data-text-offline="' . $e($this->text('text_offline', 'OFFLINE')) . '"'
-            . ' data-text-status="' . $e($this->text('text_status', 'STATUS')) . '">'
+            . ' data-text-status="' . $e($this->text('text_status', 'STATUS')) . '"'
+            . ' data-text-drehen="' . $e($this->text('text_drehen', 'DREHEN')) . '"'
+            . ' data-text-schliessen="' . $e($this->text('text_schliessen', 'SCHLIESSEN')) . '">'
             . $bildHtml
             . '<p class="datenexplorer-status" role="status"><span class="datenexplorer-lader" aria-hidden="true"></span>'
             . $e($this->text('text_laden', 'LADEN')) . '</p>'
