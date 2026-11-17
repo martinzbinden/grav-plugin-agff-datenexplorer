@@ -161,6 +161,7 @@
         huelle.hidden = true;
         huelle.innerHTML = b.html || '';
         el.appendChild(huelle);
+        el.classList.add('datenexplorer--voll');
         nurNoch(huelle);
         if (kurz) {
           // Zurueck zur schlichten Ansicht: Seite ohne Ansicht im Link neu laden
@@ -188,6 +189,8 @@
 
     // Startansicht (schlicht, wenige KB), solange der Link keine Ansicht nennt (#ebene=…, #ber=1 …)
     var mitAnsicht = /^#./.test(window.location.hash || '');
+    // Ohne Startansicht (oder Link mit Ansicht) ist es gleich der volle Datenexplorer: schon beim Laden in voller Breite
+    if (!(kurz && !mitAnsicht)) el.classList.add('datenexplorer--voll');
     if (kurz && !mitAnsicht) {
       holeJson(kurz, 0)
         .then(function (b) {

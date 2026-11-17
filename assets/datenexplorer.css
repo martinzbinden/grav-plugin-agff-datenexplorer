@@ -35,10 +35,11 @@ body { overflow-x: clip !important; }
 .datenexplorer-zurueck a { color: #2f6b62; }
 .datenexplorer-zurueck a::before { content: "← "; }
 
-/* Volle Bildschirmbreite: aus dem Seitenrahmen des Themes ausbrechen (body schneidet den Rest ab, siehe oben) */
-.datenexplorer-seite .datenexplorer { width: 100vw; margin-left: calc(50% - 50vw); margin-right: 0; }
-.datenexplorer-seite #gw-seite { max-width: none !important; }
-.datenexplorer-seite .datenexplorer-kurz, .datenexplorer-seite .datenexplorer-zurueck { padding-left: 1rem; padding-right: 1rem; }
+/* Voller Datenexplorer: volle Bildschirmbreite, aus dem Seitenrahmen des Themes ausbrechen (body schneidet den Rest ab, siehe oben).
+   Die schlichte Startansicht bleibt in der Breite des übrigen Inhalts (Klasse datenexplorer--voll setzt der Lader). */
+.datenexplorer-seite .datenexplorer--voll { width: 100vw; margin-left: calc(50% - 50vw); margin-right: 0; }
+.datenexplorer-seite .datenexplorer--voll #gw-seite { max-width: none !important; }
+.datenexplorer-seite .datenexplorer--voll .datenexplorer-zurueck { padding-left: 1rem; padding-right: 1rem; }
 
 /* Kopf (Brotkrumen, Ueberschrift) und «Drehen»: auf dem Desktop unsichtbar eingepackt, alles wie ohne Leiste */
 .datenexplorer-kopf, .datenexplorer-kopf-text { display: contents; }
@@ -64,6 +65,5 @@ body { overflow-x: clip !important; }
 .datenexplorer--quer #gw-seite { padding: 6px !important; }
 
 @media (max-width: 700px) {
-  /* Auf dem Handy randlos bis an den Bildschirmrand (die Startansicht behaelt den Rand) */
-  .datenexplorer-seite #gw-seite { padding: 6px !important; }
+  .datenexplorer-seite .datenexplorer--voll #gw-seite { padding: 6px !important; }
 }
