@@ -65,6 +65,13 @@ Vor dem Start setzt der Lader:
 
 Danach ruft er `HTMLWidgets.staticRender()` auf.
 
+## Lange offene Seite
+
+Die App rechnet ihre Daten jede Nacht neu. Damit ein tagelang offener Tab nicht den alten Stand zeigt, lädt der
+Lader die Seite nach spätestens 12 Stunden neu (Ansicht und Auswahl stecken im Link nach dem `#` und bleiben
+erhalten). Im Hintergrund-Tab und beim Zurückkehren geschieht das sofort, im aktiven Tab erst, wenn 2 Minuten
+nichts bedient wurde (kein Verlust mitten in der Arbeit).
+
 ## Lizenz
 
 MIT

@@ -226,9 +226,29 @@
     }
   }
 
+  // Lange offene Seite: Die Daten kommen jede Nacht neu, ein tagelang offener Tab zeigt sonst den alten Stand.
+  // Nach 12 Stunden laedt die Seite neu (die Ansicht steckt im Link nach dem #, bleibt also erhalten) -
+  // sofort, wenn der Tab im Hintergrund ist oder wieder angezeigt wird; im aktiven Tab erst, wenn
+  // 2 Minuten nichts bedient wurde. Auch nach Standby (Timer stehen dann still) greift die Pruefung beim Zurueckkehren.
+  var MAX_ALTER = 12 * 3600 * 1000, RUHE = 2 * 60 * 1000;
+  function alterNeuladen() {
+    var geladen = Date.now(), letzte = geladen;
+    function bedient() { letzte = Date.now(); }
+    ['pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, bedient, { passive: true, capture: true });
+    });
+    function pruefen() {
+      if (Date.now() - geladen < MAX_ALTER) return;
+      if (document.hidden || Date.now() - letzte > RUHE) window.location.reload();
+    }
+    setInterval(pruefen, 60 * 1000);
+    document.addEventListener('visibilitychange', pruefen);
+    window.addEventListener('online', pruefen);
+  }
+
   function init() {
     var el = document.querySelector('[data-datenexplorer]');
-    if (el) starte(el);
+    if (el) { starte(el); alterNeuladen(); }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
